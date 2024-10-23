@@ -1,0 +1,55 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Personajes</h2>
+
+<div class="top-container">
+  <!-- Botón que abre el modal -->
+  <button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+</div>
+
+<!-- Modal -->
+<div id="personModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ personaje.id === 0 ? 'Agregar Personaje' : 'Editar Personaje' }}</h2>
+    <hr class="modal-border">
+
+    <form #personForm="ngForm" (ngSubmit)="onSubmit(personForm)" novalidate>
+      <input type="hidden" name="id" [(ngModel)]="personaje.id">
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" [(ngModel)]="personaje.nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="nivel" class="form-label">Nivel</label>
+          <input type="number" class="form-control" id="nivel" [(ngModel)]="personaje.nivel" name="nivel" required>
+        </div>
+        <div class="mb-3">
+          <label for="clase" class="form-label">Clase</label>
+          <select class="form-select" [(ngModel)]="personaje.clase" name="clase" required>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Asesino">Asesino</option>
+            <option value="Mago">Mago</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="habilidades" class="form-label">Habilidades</label>
+          <input type="text" class="form-control" id="habilidades" [(ngModel)]="personaje.habilidades" name="habilidades" required>
+        </div>
+        <div class="mb-3">
+          <label for="imagen" class="form-label">Imagen</label>
+          <input type="file" class="form-control" id="imagen" (change)="onFileChange($event)" accept="image/png, image/jpeg">
+          <!-- Vista previa de la imagen -->
+          <img *ngIf="personaje.imagen" [src]="personaje.imagen" alt="Vista previa" class="img-preview">
+          <button type="button" class="btn btn-danger mt-2" *ngIf="personaje.imagen" (click)="removeImage()">Remover imagen</button>
+        </div>
+        
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+        <button type="submit" class="btn btn-success">Guardar</button>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>
